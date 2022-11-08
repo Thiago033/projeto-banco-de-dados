@@ -24,6 +24,24 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
+//Form to a new book
+app.get('/books/new', (req, res) => {
+    res.render('books-page/new');
+});
+
+//Creating a new book
+app.post('/books', async (req, res) => {
+
+    let { isbn, titulo, autor, idioma, descricao, preco, quantidade, id_editora } = req.body.book;
+    let book = new Book(isbn, titulo, autor, idioma, descricao, preco, quantidade, id_editora);
+
+    await book.save();
+
+    //res.status(201).json({ message: "Book Created!" });
+
+    res.redirect(`books/${isbn}`);
+});
+
 //Show all books
 app.get('/books', async (req, res) => {
 
