@@ -34,4 +34,10 @@ class Book {
 
         return db.execute(sql);
     }
+
+    static findByIdAndDelete(id) {
+        let sql = `DELETE FROM book WHERE isbn = '${id}';`;
+
+        return db.execute(sql);
+    }
 }

@@ -57,3 +57,12 @@ app.get('/books/:id', async (req, res) => {
 
     res.render('books-page/show', {book: book[0]});
 });
+
+//Delete a campground
+app.delete('/books/:id', async (req, res) => {
+    //const id = req.params.id;
+
+    await Book.findByIdAndDelete(req.params.id);
+
+    res.redirect('/books');
+});
