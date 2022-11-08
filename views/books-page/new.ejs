@@ -1,0 +1,56 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="row">
+    <h1 class="text-center">New Book</h1>
+    <div class="col-6 offset-3">
+
+        <form action="/books" method="POST">
+            <div class="mb-3">
+                <label class="form-label" for="isbn">ISBN</label>
+                <input class="form-control" type="text" name="book[isbn]" id="isbn">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="titulo">Titulo do livro</label>
+                <input class="form-control" type="text" name="book[titulo]" id="titulo">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="autor">Nome do autor</label>
+                <input class="form-control" type="text" name="book[autor]" id="autor">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="idioma">Idioma</label>
+                <input class="form-control" type="text" name="book[idioma]" id="idioma">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="descricao">descricao</label>
+                <input class="form-control" type="text" name="book[descricao]" id="descricao">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="preco">Preco</label>
+                <input class="form-control" type="number" name="book[preco]" id="preco">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="quantidade">Quantidade</label>
+                <input class="form-control" type="number" name="book[quantidade]" id="quantidade">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="id_editora">ID Editora</label>
+                <input class="form-control" type="number" name="book[id_editora]" id="id_editora">
+            </div>
+           
+            <div class="mb-3">
+                <button class="btn btn-success">Add Book</button>
+            </div>
+        </form>
+
+        <a href="/books">Cancel</a>
+
+    </div>
+</div>
