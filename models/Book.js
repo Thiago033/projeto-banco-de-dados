@@ -41,3 +41,5 @@ class Book {
         return db.execute(sql);
     }
 }
+
+module.exports = Book;
