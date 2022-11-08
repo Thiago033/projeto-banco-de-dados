@@ -31,3 +31,11 @@ app.get('/books', async (req, res) => {
 
     res.render('books-page/index', {books});
 });
+
+//Show one specific books
+app.get('/books/:id', async (req, res) => {
+
+    const [book, _] = await Book.findById(req.params.id);
+
+    res.render('books-page/show', {book: book[0]});
+});

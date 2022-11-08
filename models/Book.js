@@ -11,10 +11,17 @@ class Book {
         this.quantidade = quantidade;
         this.id_editora = id_editora;
     }
-    
+
     //return all books saved on data base
     static findAll() {
         let sql = `SELECT * FROM book;`
+
+        return db.execute(sql);
+    }
+
+    //return book by id
+    static findById(id){
+        let sql = `SELECT * FROM book WHERE isbn = '${id}';`;
 
         return db.execute(sql);
     }
