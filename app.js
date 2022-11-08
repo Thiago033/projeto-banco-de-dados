@@ -3,6 +3,8 @@ const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const path = require('path');
 
+const Book = require("../projeto-banco-de-dados/models/Book");
+
 const app = express();
 
 app.set('views', path.join(__dirname, 'views'));
@@ -17,3 +19,15 @@ app.engine('ejs', ejsMate);
 //http://localhost:3000/
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`server running on port ${PORT}`));
+
+app.get('/', (req, res) => {
+    res.render('home');
+});
+
+//Show all books
+app.get('/books', async (req, res) => {
+
+    const [books, _] = await Book.findAll();
+
+    res.render('books-page/index', {books});
+});
