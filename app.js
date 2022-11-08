@@ -20,8 +20,17 @@ app.engine('ejs', ejsMate);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`server running on port ${PORT}`));
 
+//Home page
 app.get('/', (req, res) => {
     res.render('home');
+});
+
+//Show all books
+app.get('/books', async (req, res) => {
+
+    const [books, _] = await Book.findAll();
+
+    res.render('books-page/index', {books});
 });
 
 //Form to a new book
@@ -42,13 +51,6 @@ app.post('/books', async (req, res) => {
     res.redirect(`books/${isbn}`);
 });
 
-//Show all books
-app.get('/books', async (req, res) => {
-
-    const [books, _] = await Book.findAll();
-
-    res.render('books-page/index', {books});
-});
 
 //Show one specific books
 app.get('/books/:id', async (req, res) => {
