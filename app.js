@@ -25,6 +25,12 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
+
+/*
+===================
+BOOKS ROUTES
+===================
+*/
 //Show all books
 app.get('/books', async (req, res) => {
 
@@ -50,7 +56,6 @@ app.post('/books', async (req, res) => {
 
     res.redirect(`books/${isbn}`);
 });
-
 
 //Show one specific books
 app.get('/books/:id', async (req, res) => {
