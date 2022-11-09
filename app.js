@@ -61,12 +61,13 @@ app.post('/books', async (req, res) => {
 //Show one specific books
 app.get('/books/:id', async (req, res) => {
 
+    const [publishers] = await Publishers.findAll();
     const [book, _] = await Book.findById(req.params.id);
 
-    res.render('books-page/show', {book: book[0]});
+    res.render('books-page/show', {book: book[0], publishers: publishers[0]});
 });
 
-//Delete a campground
+//Delete a book
 app.delete('/books/:id', async (req, res) => {
     //const id = req.params.id;
 
@@ -85,5 +86,14 @@ app.get('/editoras', async (req, res) => {
 
     const [publishers, _] = await Publishers.findAll();
 
-    res.render('publishers-page/index', {publishers});
+    res.render('publishers-page/publishers-index', {publishers});
+});
+
+//Show all books from specify publisher
+app.get('/editoras/:id', async (req, res) => {
+
+    const [publishers] = await Publishers.findAll();
+    const [books, _] = await Publishers.findById(req.params.id);
+
+    res.render('publishers-page/publishers-show', {books, publishers: publishers[0]});
 });
