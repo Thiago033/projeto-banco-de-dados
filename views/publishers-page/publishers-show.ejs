@@ -1,0 +1,22 @@
+<% layout('layouts/boilerplate') %>
+
+<h1>All Books from this publisher</h1>
+<h2> <%= publishers.nome_editora %> </h2>
+
+<% for(let book of books) { %>
+    <div class="card mb-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card-body">
+                    <h5 class="card-title"> <%= book.isbn%> </h5>
+                    <p class="card-text"> <%= book.titulo %> </p>
+                    <p class="card-text"> <%= book.autor %> </p>
+                    <p class="card-text">
+                        <small class="text-muted"> <%= book.descricao %> </small>
+                    </p>
+                    <a href="/books/<%= book.isbn%>" class="btn btn-primary">View <%= book.titulo %></a>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>
