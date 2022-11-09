@@ -4,6 +4,7 @@ const methodOverride = require('method-override');
 const path = require('path');
 
 const Book = require("../projeto-banco-de-dados/models/Book");
+const Publishers = require("../projeto-banco-de-dados/models/Publishers");
 
 const app = express();
 
@@ -72,4 +73,17 @@ app.delete('/books/:id', async (req, res) => {
     await Book.findByIdAndDelete(req.params.id);
 
     res.redirect('/books');
+});
+
+/*
+===================
+Publishers
+===================
+*/
+//Show all publishers
+app.get('/editoras', async (req, res) => {
+
+    const [publishers, _] = await Publishers.findAll();
+
+    res.render('publishers-page/index', {publishers});
 });
