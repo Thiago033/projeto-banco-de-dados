@@ -5,6 +5,7 @@
         <p>Mostrando livro por ID (ISBN)</p>
         <p><%= book.isbn %></p>
         <p><%= book.titulo %></p>
+        <p class="card-text"> <%= publishers.nome_editora %> </p>
 
         <form class="d-inline" action="/books/<%=book.isbn%>?_method=DELETE" method="POST">
             <button class="btn btn-danger">Delete</button>
