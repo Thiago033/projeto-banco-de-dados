@@ -7,11 +7,11 @@
         <div class="col-md-12">
             <div class="card-body">
                 
-                <h5 class="card-title"> <%= order.email%> </h5>
-                <p class="card-text"> <%= order.isbn %> </p>
-                <p class="card-text"> <%= order.valor_total %> </p>
-                <p class="card-text"> <%= order.quantidade %> </p>
-                <p class="card-text"> <%= order.situacao %> </p>
+                <h5 class="card-title">Email de compra: <%= order.email%> </h5>
+                <p class="card-text">Codigo ISBN do livro comprado: <%= order.isbn %> </p>
+                <p class="card-text">Valor total: $<%= order.valor_total %> </p>
+                <p class="card-text">Quantidade: <%= order.quantidade %> </p>
+                <p class="card-text">Situacao do pagamento: <%= order.situacao %> </p>
                 
                 <a href="/pedido/<%= order.cod_pedido%>/pagamento" class="btn btn-success">Realizar Pagamento</a>
             </div>

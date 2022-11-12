@@ -1,23 +1,43 @@
 <% layout('layouts/boilerplate') %>
 
 <div class="row">
-    <div class="col-6 offset-3">
-        <p>Mostrando livro por ID (ISBN)</p>
-        <p><%= book.isbn %></p>
-        <p><%= book.titulo %></p>
-        <p class="card-text"> <%= publishers.nome_editora %> </p>
+    <div class="card mb-3 d-flex flex-column">
+        <div class="row">
+            <div class="col-md-4">
+                <img class="img-fluid" src="https://picsum.photos/200/300" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h2 class="card-title mb-3"> <%= book.titulo %> </h2>
+                    <p class="card-text">
+                        <small class="text-muted"> <%= book.descricao %> </small>
+                    </p>
+                    <p class="card-text"> <%= book.autor %> </p>
+                    <p class="card-text"> <%= book.idioma %> </p>
 
-        <form class="d-inline" action="/books/<%=book.isbn%>?_method=DELETE" method="POST">
-            <button class="btn btn-danger">Delete</button>
-        </form>
+                    
+                    <p class="card-text">
+                        <small class="text-muted">ISBN: <%= book.isbn %> </small>
+                    </p>
 
-        <form action="/pedidos" method="POST">
-            <label class="form-label" for="quantidade">Quantidade</label>
-            <input class="form-control" type="number" name="quantidade" id="quantidade">
+                    <h5 class="card-text"> $<%= book.preco %> </h5>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            <input type="hidden" name="isbn" value="<%= book.isbn %>">
-
+    <h4>Livros restantes no estoque: <%= book.quantidade %> </h4>
+    <div class="input-group mb-3 justify-content-center">
+        <div class="input-group-prepend">
             <button class="btn btn-success">Order book</button>
+        </div>
+        <form action="/pedidos" method="POST">
+            <input class="form-control" type="number" name="quantidade" id="quantidade" placeholder="Quantidade">
+            <input type="hidden" name="isbn" value="<%= book.isbn %>">
         </form>
     </div>
+
+    <form class="d-inline" action="/books/<%=book.isbn%>?_method=DELETE" method="POST">
+        <button class="btn btn-danger">Delete</button>
+    </form>
 </div>
