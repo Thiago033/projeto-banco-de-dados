@@ -1,5 +1,0 @@
-MUDAR QUANTIDADE DE LIVROS AO COMPRAR
-
-quantidade = quantidade - 1
-
-nao faco a minima ideia de como vou fazer isso
