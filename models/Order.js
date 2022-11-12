@@ -10,6 +10,20 @@ class Order {
         this.situacao = situacao;
     }
 
+    //find all orders for user email
+    static findAllOrdersById(email){
+        let sql = `SELECT * FROM pedido WHERE email = '${email}';`;
+
+        return db.execute(sql);
+    }
+ 
+    static findOrderById(id) {
+
+        let sql = `SELECT * FROM pedido WHERE cod_pedido = ${id};`;
+
+        return db.execute(sql);
+    }
+
     //save on database
     async save() {
 
@@ -18,6 +32,13 @@ class Order {
         const [newOrder, _] = await db.execute(sql);
         
         return newOrder;
+    }
+
+    //payment
+    static payment(id) {
+        let sql = `UPDATE pedido SET situacao = 'Aprovado' WHERE cod_pedido = ${id};`
+
+        return db.execute(sql);
     }
 }
 

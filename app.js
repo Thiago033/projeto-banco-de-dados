@@ -41,14 +41,6 @@ app.get('/books', async (req, res) => {
     res.render('books-page/index', {books});
 });
 
-//Show one specific books
-app.get('/books/:id', async (req, res) => {
-    
-    const [publishers] = await Publishers.findAll();
-    const [book, _] = await Book.findById(req.params.id);
-    
-    res.render('books-page/show', {book: book[0], publishers: publishers[0]});
-});
 
 //Form to a new book
 app.get('/books/new', (req, res) => {
@@ -57,15 +49,22 @@ app.get('/books/new', (req, res) => {
 
 //Creating a new book
 app.post('/books', async (req, res) => {
-
+    
     let { isbn, titulo, autor, idioma, descricao, preco, quantidade, id_editora } = req.body.book;
     let book = new Book(isbn, titulo, autor, idioma, descricao, preco, quantidade, id_editora);
-
+    
     await book.save();
-
-    //res.status(201).json({ message: "Book Created!" });
-
+    
     res.redirect(`books/${isbn}`);
+});
+
+//Show one specific books
+app.get('/books/:id', async (req, res) => {
+    
+    const [publishers] = await Publishers.findAll();
+    const [book, _] = await Book.findById(req.params.id);
+    
+    res.render('books-page/show', {book: book[0], publishers: publishers[0]});
 });
 
 //Delete a book
@@ -101,9 +100,17 @@ app.get('/editoras/:id', async (req, res) => {
     res.render('publishers-page/publishers-show', {books, publishers: publishers[0]});
 });
 
+
+//ORDERS
+
 //Orders page
-app.get('/pedidos', (req, res) => {
-    res.render('order');
+app.get('/pedidos', async (req, res) => {
+
+    let email = 'thiagolopes@hotmail.com';
+
+    const [orders, _] = await Order.findAllOrdersById(email);
+
+    res.render('orders-page/orders-index', {orders});
 });
 
 //Create new order
@@ -116,4 +123,22 @@ app.post('/pedidos', async (req, res) => {
     let order = new Order(5, 'thiagolopes@hotmail.com', req.body.isbn, price, req.body.quantidade, 'Pendente');
 
     await order.save();
+});
+
+//Show order by id
+app.get('/pedido/:id', async (req, res) => {
+
+    const [order, _] = await Order.findOrderById(req.params.id);
+
+    res.render('orders-page/orders-show', {order: order[0]});
+});
+
+app.get('/pedido/:id/pagamento', async (req, res) => {
+
+    const [order, _] = await Order.findOrderById(req.params.id);
+
+    Order.payment(req.params.id);
+
+    res.render('orders-page/orders-payment', {order: order[0]});
+
 });

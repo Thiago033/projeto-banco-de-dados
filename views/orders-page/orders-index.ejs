@@ -1,0 +1,23 @@
+<% layout('layouts/boilerplate') %>
+
+<h1>Your orders</h1>
+
+<% for(let order of orders) { %> 
+
+    <div class="card mb-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card-body">
+                    
+                    <h5 class="card-title"> <%= order.email%> </h5>
+                    <p class="card-text"> <%= order.isbn %> </p>
+                    <p class="card-text"> <%= order.valor_total %> </p>
+                    <p class="card-text"> <%= order.quantidade %> </p>
+                    <p class="card-text"> <%= order.situacao %> </p>
+
+                    <a href="/pedido/<%=order.cod_pedido%>" class="btn btn-primary">View order%></a>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>
