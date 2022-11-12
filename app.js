@@ -27,6 +27,7 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
+let email = 'thiagolopes@hotmail.com';
 
 /*
 ===================
@@ -100,13 +101,13 @@ app.get('/editoras/:id', async (req, res) => {
     res.render('publishers-page/publishers-show', {books, publishers: publishers[0]});
 });
 
-
-//ORDERS
-
-//Orders page
+/*
+===================
+Orders
+===================
+*/
+//Show all orders
 app.get('/pedidos', async (req, res) => {
-
-    let email = 'thiagolopes@hotmail.com';
 
     const [orders, _] = await Order.findAllOrdersById(email);
 
@@ -116,13 +117,25 @@ app.get('/pedidos', async (req, res) => {
 //Create new order
 app.post('/pedidos', async (req, res) => {
 
+    const [orders] = await Order.findAllOrdersById(email);
     const [book, _] = await Book.findById(req.body.isbn);
-    
-    let price = book[0].preco * req.body.quantidade;
 
-    let order = new Order(5, 'thiagolopes@hotmail.com', req.body.isbn, price, req.body.quantidade, 'Pendente');
+    let qtd = book[0].quantidade;
+    qtd -= req.body.quantidade;
+
+    if (qtd < 0) {
+        console.log("sem livros restantes");
+        return;
+    }
+
+    await Book.deleteQuantity(req.body.isbn, qtd);
+
+    let price = book[0].preco * req.body.quantidade;
+    let order = new Order(1, email, req.body.isbn, price, req.body.quantidade, 'Pendente');
 
     await order.save();
+
+    res.render('orders-page/orders-index', {orders});
 });
 
 //Show order by id
@@ -133,6 +146,7 @@ app.get('/pedido/:id', async (req, res) => {
     res.render('orders-page/orders-show', {order: order[0]});
 });
 
+//Order payment
 app.get('/pedido/:id/pagamento', async (req, res) => {
 
     const [order, _] = await Order.findOrderById(req.params.id);

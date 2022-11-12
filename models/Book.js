@@ -40,6 +40,12 @@ class Book {
 
         return db.execute(sql);
     }
+
+    static deleteQuantity(id, qtd) {
+        let sql = `UPDATE book SET quantidade = ${qtd} WHERE isbn = '${id}';`;
+
+        return db.execute(sql);
+    }
 }
 
 module.exports = Book;
