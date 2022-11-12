@@ -5,6 +5,7 @@ const path = require('path');
 
 const Book = require("../projeto-banco-de-dados/models/Book");
 const Publishers = require("../projeto-banco-de-dados/models/Publishers");
+const Order = require("../projeto-banco-de-dados/models/Order");
 
 const app = express();
 
@@ -40,6 +41,15 @@ app.get('/books', async (req, res) => {
     res.render('books-page/index', {books});
 });
 
+//Show one specific books
+app.get('/books/:id', async (req, res) => {
+    
+    const [publishers] = await Publishers.findAll();
+    const [book, _] = await Book.findById(req.params.id);
+    
+    res.render('books-page/show', {book: book[0], publishers: publishers[0]});
+});
+
 //Form to a new book
 app.get('/books/new', (req, res) => {
     res.render('books-page/new');
@@ -58,15 +68,6 @@ app.post('/books', async (req, res) => {
     res.redirect(`books/${isbn}`);
 });
 
-//Show one specific books
-app.get('/books/:id', async (req, res) => {
-
-    const [publishers] = await Publishers.findAll();
-    const [book, _] = await Book.findById(req.params.id);
-
-    res.render('books-page/show', {book: book[0], publishers: publishers[0]});
-});
-
 //Delete a book
 app.delete('/books/:id', async (req, res) => {
     //const id = req.params.id;
@@ -75,6 +76,8 @@ app.delete('/books/:id', async (req, res) => {
 
     res.redirect('/books');
 });
+
+
 
 /*
 ===================
@@ -96,4 +99,21 @@ app.get('/editoras/:id', async (req, res) => {
     const [books, _] = await Publishers.findById(req.params.id);
 
     res.render('publishers-page/publishers-show', {books, publishers: publishers[0]});
+});
+
+//Orders page
+app.get('/pedidos', (req, res) => {
+    res.render('order');
+});
+
+//Create new order
+app.post('/pedidos', async (req, res) => {
+
+    const [book, _] = await Book.findById(req.body.isbn);
+    
+    let price = book[0].preco * req.body.quantidade;
+
+    let order = new Order(5, 'thiagolopes@hotmail.com', req.body.isbn, price, req.body.quantidade, 'Pendente');
+
+    await order.save();
 });
