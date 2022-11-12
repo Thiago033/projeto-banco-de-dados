@@ -11,13 +11,25 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card-body">
+                    
                     <h5 class="card-title"> <%= book.isbn%> </h5>
                     <p class="card-text"> <%= book.titulo %> </p>
                     <p class="card-text"> <%= book.autor %> </p>
                     <p class="card-text">
                         <small class="text-muted"> <%= book.descricao %> </small>
                     </p>
+
                     <a href="/books/<%= book.isbn%>" class="btn btn-primary">View <%= book.titulo %></a>
+
+                    <form action="/pedidos" method="POST">
+                        <label class="form-label" for="quantidade">Quantidade</label>
+                        <input class="form-control" type="number" name="quantidade" id="quantidade">
+            
+                        <input type="hidden" name="isbn" value="<%= book.isbn %>">
+            
+                        <button class="btn btn-success">Order book</button>
+                    </form>
+                    
                 </div>
             </div>
         </div>

@@ -10,5 +10,14 @@
         <form class="d-inline" action="/books/<%=book.isbn%>?_method=DELETE" method="POST">
             <button class="btn btn-danger">Delete</button>
         </form>
+
+        <form action="/pedidos" method="POST">
+            <label class="form-label" for="quantidade">Quantidade</label>
+            <input class="form-control" type="number" name="quantidade" id="quantidade">
+
+            <input type="hidden" name="isbn" value="<%= book.isbn %>">
+
+            <button class="btn btn-success">Order book</button>
+        </form>
     </div>
 </div>
