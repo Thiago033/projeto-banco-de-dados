@@ -23,6 +23,4 @@ class Publishers {
 
 }
 
-
-
 module.exports = Publishers;
