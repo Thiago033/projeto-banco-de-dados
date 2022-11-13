@@ -23,7 +23,7 @@ class Book {
 
     //Return all books on database
     static findAll() {
-        let sql = `SELECT * FROM book;`
+        let sql = `SELECT * FROM book;`;
 
         return db.execute(sql);
     }
@@ -45,6 +45,17 @@ class Book {
     //Delete specific quantity from books by ISBN
     static deleteQuantity(isbn, qtd) {
         let sql = `UPDATE book SET quantidade = ${qtd} WHERE isbn = '${isbn}';`;
+
+        return db.execute(sql);
+    }
+
+    static findByIdAndUpdate(id, res) {
+       
+        let sql = `
+        UPDATE book
+        SET isbn = '${res.isbn}', titulo = '${res.titulo}', autor = '${res.autor}', idioma = '${res.idioma}', descricao = '${res.descricao}', preco = ${res.preco}, quantidade = ${res.quantidade}, id_editora = ${res.id_editora}
+        WHERE isbn = '${id}';`;
+
 
         return db.execute(sql);
     }

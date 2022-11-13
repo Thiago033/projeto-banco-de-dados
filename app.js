@@ -48,23 +48,23 @@ Creating  a new book on database
 ======================================
 */
 //Form to create a new book
-app.get('/books/new', (req, res) => {
+app.get('/book/new', (req, res) => {
     res.render('books-page/new');
 });
 
 //Creating a new book
-app.post('/books', async (req, res) => {
+app.post('/book', async (req, res) => {
     
     let { isbn, titulo, autor, idioma, descricao, preco, quantidade, id_editora } = req.body.book;
     let book = new Book(isbn, titulo, autor, idioma, descricao, preco, quantidade, id_editora);
     
     await book.save();
     
-    res.redirect(`books/${isbn}`);
+    res.redirect(`book/${isbn}`);
 });
 
 //Page to show one specific book
-app.get('/books/:id', async (req, res) => {
+app.get('/book/:id', async (req, res) => {
     
     const [publishers] = await Publishers.findAll();
     const [book, _] = await Book.findById(req.params.id);
@@ -73,13 +73,28 @@ app.get('/books/:id', async (req, res) => {
 });
 
 //Delete a book by id
-app.delete('/books/:id', async (req, res) => {
+app.delete('/book/:id', async (req, res) => {
 
     await Book.findByIdAndDelete(req.params.id);
 
     res.redirect('/books');
 });
 
+//Form to edit a book
+app.get('/book/:id/edit', async (req, res) => {
+    
+    const [book, _] = await Book.findById(req.params.id);
+
+    res.render('books-page/edit-book', { book: book[0] });
+});
+
+//Edit a book
+app.put('/book/:id', async (req, res) => {
+
+    await Book.findByIdAndUpdate(req.params.id, {...req.body.book});
+    
+    res.redirect(`/book/${req.body.book.isbn}`);
+});
 
 /*
 ===================
@@ -95,7 +110,7 @@ app.get('/editoras', async (req, res) => {
 });
 
 //Show all books from specify publisher
-app.get('/editoras/:id', async (req, res) => {
+app.get('/editora/:id', async (req, res) => {
 
     const [publishers] = await Publishers.findAll();
     const [books, _] = await Publishers.findById(req.params.id);
