@@ -12,7 +12,7 @@ class Book {
         this.id_editora = id_editora;
     }
 
-    //save on database
+    //Save book on database
     async save() {
         let sql = `INSERT INTO book VALUES('${this.isbn}', '${this.titulo}', '${this.autor}', '${this.idioma}', '${this.descricao}', ${this.preco}, ${this.quantidade}, ${this.id_editora})`;
         
@@ -21,28 +21,30 @@ class Book {
         return newBook;
     }
 
-    //return all books saved on data base
+    //Return all books on database
     static findAll() {
         let sql = `SELECT * FROM book;`
 
         return db.execute(sql);
     }
 
-    //return book by id
-    static findById(id){
-        let sql = `SELECT * FROM book WHERE isbn = '${id}';`;
+    //Return book by ISBN
+    static findById(isbn){
+        let sql = `SELECT * FROM book WHERE isbn = '${isbn}';`;
 
         return db.execute(sql);
     }
 
-    static findByIdAndDelete(id) {
-        let sql = `DELETE FROM book WHERE isbn = '${id}';`;
+    //Delete book by ISBN
+    static findByIdAndDelete(isbn) {
+        let sql = `DELETE FROM book WHERE isbn = '${isbn}';`;
 
         return db.execute(sql);
     }
 
-    static deleteQuantity(id, qtd) {
-        let sql = `UPDATE book SET quantidade = ${qtd} WHERE isbn = '${id}';`;
+    //Delete specific quantity from books by ISBN
+    static deleteQuantity(isbn, qtd) {
+        let sql = `UPDATE book SET quantidade = ${qtd} WHERE isbn = '${isbn}';`;
 
         return db.execute(sql);
     }
