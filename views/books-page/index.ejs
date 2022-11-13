@@ -21,7 +21,7 @@
                     <h5 class="mb-3">$ <%= book.preco %> </h5>
                    
                     
-                    <a href="/books/<%= book.isbn%>" class="btn btn-primary align-self-end" style="position:absolute;">View <%= book.titulo %></a>
+                    <a href="/book/<%= book.isbn%>" class="btn btn-primary align-self-end" style="position:absolute;">View <%= book.titulo %></a>
                 </div>
             </div>
         </div>
@@ -29,5 +29,5 @@
 <% } %>
 
 <div>
-    <a href="/books/new" class="btn btn-success">Add new book</a>
+    <a href="/book/new" class="btn btn-success">Add new book</a>
 </div>

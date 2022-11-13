@@ -2,10 +2,6 @@
 
 <h1>Livros da editora <%= publishers.nome_editora %></h1>
 
-<div>
-    <a href="/books/new">Add new book</a>
-</div>
-
 <% for(let book of books) { %>
     <div class="card mb-3 d-flex flex-column">
         <div class="row">
@@ -24,7 +20,7 @@
                     <h5 class="mb-3">$ <%= book.preco %> </h5>
                    
                     
-                    <a href="/books/<%= book.isbn%>" class="btn btn-primary align-self-end" style="position:absolute;">View <%= book.titulo %></a>
+                    <a href="/book/<%= book.isbn%>" class="btn btn-primary align-self-end" style="position:absolute;">View <%= book.titulo %></a>
                 </div>
             </div>
         </div>

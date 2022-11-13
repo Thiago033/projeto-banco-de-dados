@@ -44,7 +44,9 @@
     </form>
 </div>
 
-<form class="d-inline" action="/books/<%=book.isbn%>?_method=DELETE" method="POST">
+<a href="/book/<%= book.isbn %>/edit " class="card-link btn btn-primary">Edit book</a>
+
+<form class="d-inline" action="/book/<%=book.isbn%>?_method=DELETE" method="POST">
     <button class="btn btn-danger">Delete</button>
 </form>
 
