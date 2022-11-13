@@ -28,17 +28,17 @@
 <h4>Livros restantes no estoque: <%= book.quantidade %> </h4>
         
 <div class="d-flex justify-content-center">
-    <form action="/pedidos" method="POST" id="myForm" onsubmit="event.preventDefault(); validateMyForm(<%= book.quantidade %>);">
+    <form action="/pedidos" class="needs-validation" method="POST" id="myForm" onsubmit="event.preventDefault(); validateMyForm(<%= book.quantidade %>);">
         <div class="row">
-            
-          <div class="col-5">
-            <input class="form-control" type="number" name="quantidade" id="quantidade" placeholder="Quantidade">
-            <input type="hidden" name="isbn" value="<%= book.isbn %>">
-          </div>
 
-          <div class="col-7">
-            <button class="btn btn-success mb-2">Order book</button>
-          </div>
+            <div class="col-5">
+                <input type="hidden" name="isbn" value="<%= book.isbn %>">
+                <input class="form-control" type="number" name="quantidade" id="quantidade" placeholder="Quantidade" required min="1">
+            </div>
+        
+            <div class="col-7">
+                <button class="btn btn-success mb-2" type="submit">Order book</button>
+            </div>
 
         </div>
     </form>
@@ -47,6 +47,8 @@
 <form class="d-inline" action="/books/<%=book.isbn%>?_method=DELETE" method="POST">
     <button class="btn btn-danger">Delete</button>
 </form>
+
+
 
 <script>
 
