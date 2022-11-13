@@ -133,7 +133,7 @@ app.post('/pedidos', async (req, res) => {
     await Book.deleteQuantity(req.body.isbn, qtd);
 
     let price = book[0].preco * req.body.quantidade;
-    let order = new Order(1, email, req.body.isbn, price, req.body.quantidade, 'Pendente');
+    let order = new Order(null, email, req.body.isbn, price, req.body.quantidade, 'Pendente');
 
     await order.save();
 

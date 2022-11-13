@@ -27,7 +27,7 @@ class Order {
     //save on database
     async save() {
 
-        let sql = `INSERT INTO pedido VALUES(${this.cod_pedido}, '${this.email}', '${this.isbn}', ${this.valor_total}, ${this.quantidade}, '${this.situacao}')`;
+        let sql = `INSERT INTO pedido VALUES(NULL, '${this.email}', '${this.isbn}', ${this.valor_total}, ${this.quantidade}, '${this.situacao}')`;
         
         const [newOrder, _] = await db.execute(sql);
         
