@@ -34,7 +34,7 @@ let email = 'thiagolopes@hotmail.com';
 BOOKS ROUTES
 ===================
 */
-//Show all books
+//Page to show all books
 app.get('/books', async (req, res) => {
 
     const [books, _] = await Book.findAll();
@@ -42,8 +42,12 @@ app.get('/books', async (req, res) => {
     res.render('books-page/index', {books});
 });
 
-
-//Form to a new book
+/* 
+======================================
+Creating  a new book on database
+======================================
+*/
+//Form to create a new book
 app.get('/books/new', (req, res) => {
     res.render('books-page/new');
 });
@@ -59,7 +63,7 @@ app.post('/books', async (req, res) => {
     res.redirect(`books/${isbn}`);
 });
 
-//Show one specific books
+//Page to show one specific book
 app.get('/books/:id', async (req, res) => {
     
     const [publishers] = await Publishers.findAll();
@@ -68,9 +72,8 @@ app.get('/books/:id', async (req, res) => {
     res.render('books-page/show', {book: book[0], publishers: publishers[0]});
 });
 
-//Delete a book
+//Delete a book by id
 app.delete('/books/:id', async (req, res) => {
-    //const id = req.params.id;
 
     await Book.findByIdAndDelete(req.params.id);
 
@@ -78,13 +81,12 @@ app.delete('/books/:id', async (req, res) => {
 });
 
 
-
 /*
 ===================
-Publishers
+PUBLISHERS ROUTES
 ===================
 */
-//Show all publishers
+//Page to show all publishers
 app.get('/editoras', async (req, res) => {
 
     const [publishers, _] = await Publishers.findAll();
@@ -103,10 +105,10 @@ app.get('/editoras/:id', async (req, res) => {
 
 /*
 ===================
-Orders
+ORDERS ROUTES
 ===================
 */
-//Show all orders
+//Show all orders from user
 app.get('/pedidos', async (req, res) => {
 
     const [orders, _] = await Order.findAllOrdersById(email);
@@ -114,7 +116,7 @@ app.get('/pedidos', async (req, res) => {
     res.render('orders-page/orders-index', {orders});
 });
 
-//Create new order
+//Create a new order
 app.post('/pedidos', async (req, res) => {
 
     const [orders] = await Order.findAllOrdersById(email);
@@ -138,7 +140,7 @@ app.post('/pedidos', async (req, res) => {
     res.render('orders-page/orders-index', {orders});
 });
 
-//Show order by id
+//Show an order by id
 app.get('/pedido/:id', async (req, res) => {
 
     const [order, _] = await Order.findOrderById(req.params.id);
