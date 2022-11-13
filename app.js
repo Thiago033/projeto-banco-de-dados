@@ -122,13 +122,8 @@ app.post('/pedidos', async (req, res) => {
     const [orders] = await Order.findAllOrdersById(email);
     const [book, _] = await Book.findById(req.body.isbn);
 
-    let qtd = book[0].quantidade;
-    qtd -= req.body.quantidade;
-
-    if (qtd < 0) {
-        console.log("sem livros restantes");
-        return;
-    }
+    let qtd = req.body.quantidade;
+    qtd = book[0].quantidade - qtd;
 
     await Book.deleteQuantity(req.body.isbn, qtd);
 

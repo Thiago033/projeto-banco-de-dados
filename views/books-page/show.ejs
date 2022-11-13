@@ -28,7 +28,7 @@
 <h4>Livros restantes no estoque: <%= book.quantidade %> </h4>
         
 <div class="d-flex justify-content-center">
-    <form action="/pedidos" method="POST">
+    <form action="/pedidos" method="POST" id="myForm" onsubmit="event.preventDefault(); validateMyForm(<%= book.quantidade %>);">
         <div class="row">
             
           <div class="col-5">
@@ -47,3 +47,20 @@
 <form class="d-inline" action="/books/<%=book.isbn%>?_method=DELETE" method="POST">
     <button class="btn btn-danger">Delete</button>
 </form>
+
+<script>
+
+    function validateMyForm(quantidadeLivros) {
+
+        var qtd = document.getElementById("quantidade").value;
+        qtd = quantidadeLivros - qtd;
+
+        if (qtd < 0){
+            alert("Sem mais livros no estoque!");
+            return false;
+        }
+
+        document.getElementById("myForm").submit();
+        return true;
+    }
+</script>
