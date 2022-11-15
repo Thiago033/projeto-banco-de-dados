@@ -12,6 +12,7 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
@@ -23,8 +24,11 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`server running on port ${PORT}`));
 
 //Home page
-app.get('/', (req, res) => {
-    res.render('home');
+app.get('/', async (req, res) => {
+
+    const [books, _] = await Book.findAll();
+
+    res.render('home', {books});
 });
 
 let email = 'thiagolopes@hotmail.com';
