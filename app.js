@@ -1,4 +1,5 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const path = require('path');
@@ -6,6 +7,7 @@ const path = require('path');
 const Book = require("../projeto-banco-de-dados/models/Book");
 const Publishers = require("../projeto-banco-de-dados/models/Publishers");
 const Order = require("../projeto-banco-de-dados/models/Order");
+const { ifError } = require('assert');
 
 const app = express();
 
@@ -14,7 +16,9 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
+app.use(fileUpload());
 app.use(methodOverride('_method'));
+app.use('/public/', express.static('./public'));
 
 app.engine('ejs', ejsMate);
 
@@ -59,9 +63,29 @@ app.get('/book/new', (req, res) => {
 //Creating a new book
 app.post('/book', async (req, res) => {
     
-    let { isbn, titulo, autor, idioma, descricao, preco, quantidade, id_editora } = req.body.book;
-    let book = new Book(isbn, titulo, autor, idioma, descricao, preco, quantidade, id_editora);
-    
+    let bookCover;
+    let uploadPath;
+
+    bookCover = req.files.capa;
+    uploadPath = '/public/upload/' + bookCover.name;
+
+    teste = __dirname + uploadPath
+
+    bookCover.mv(teste);
+
+    let isbn = req.body.isbn, 
+        titulo = req.body.titulo,
+        autor = req.body.autor, 
+        idioma = req.body.idioma, 
+        descricao = req.body.descricao, 
+        preco = req.body.preco, 
+        quantidade = req.body.quantidade, 
+        id_editora = req.body.id_editora
+        capa = uploadPath;
+    ;
+
+    let book = new Book(isbn, titulo, autor, idioma, descricao, preco, quantidade, id_editora, capa);
+
     await book.save();
     
     res.redirect(`book/${isbn}`);
