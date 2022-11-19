@@ -1,7 +1,7 @@
 const db = require("../config/db");
 
 class Book {
-    constructor(isbn ,titulo, autor, idioma, descricao, preco, quantidade, id_editora) {
+    constructor(isbn ,titulo, autor, idioma, descricao, preco, quantidade, id_editora, capa) {
         this.isbn = isbn;
         this.titulo = titulo;
         this.autor = autor;
@@ -10,11 +10,12 @@ class Book {
         this.preco = preco;
         this.quantidade = quantidade;
         this.id_editora = id_editora;
+        this.capa = capa;
     }
 
     //Save book on database
     async save() {
-        let sql = `INSERT INTO book VALUES('${this.isbn}', '${this.titulo}', '${this.autor}', '${this.idioma}', '${this.descricao}', ${this.preco}, ${this.quantidade}, ${this.id_editora})`;
+        let sql = `INSERT INTO book VALUES('${this.isbn}', '${this.titulo}', '${this.autor}', '${this.idioma}', '${this.descricao}', ${this.preco}, ${this.quantidade}, ${this.id_editora}, '${this.capa}');`;
         
         const [newBook, _] = await db.execute(sql);
         
