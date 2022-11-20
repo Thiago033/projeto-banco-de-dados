@@ -1,13 +1,19 @@
-const express = require('express');
-const fileUpload = require('express-fileupload');
-const ejsMate = require('ejs-mate');
-const methodOverride = require('method-override');
-const path = require('path');
+const Book          = require("../projeto-banco-de-dados/models/Book");
+const Publishers    = require("../projeto-banco-de-dados/models/Publishers");
+const Order         = require("../projeto-banco-de-dados/models/Order");
+const User          = require("../projeto-banco-de-dados/models/User");
 
-const Book = require("../projeto-banco-de-dados/models/Book");
-const Publishers = require("../projeto-banco-de-dados/models/Publishers");
-const Order = require("../projeto-banco-de-dados/models/Order");
-const { ifError } = require('assert');
+const { ifError }           = require('assert');
+const express               = require('express');
+const fileUpload            = require('express-fileupload');
+const ejsMate               = require('ejs-mate');
+const methodOverride        = require('method-override');
+const bcrypt                = require('bcrypt');
+const passport              = require('passport');
+const path                  = require('path');
+const flash                 = require('express-flash');
+const session               = require('express-session');
+const LocalStrategy         = require('passport-local').Strategy;
 
 const app = express();
 
@@ -15,10 +21,19 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(fileUpload());
 app.use(methodOverride('_method'));
 app.use('/public/', express.static('./public'));
+app.use(flash());
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.engine('ejs', ejsMate);
 
@@ -27,9 +42,58 @@ app.engine('ejs', ejsMate);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`server running on port ${PORT}`));
 
+//Form to login
+app.get('/login', async (req, res) => {
+    res.render('passport-login-system/login');
+});
+
+//Post
+app.post('/login', passport.authenticate('local', {
+	successRedirect: '/',
+	failureRedirect: '/login'
+}));
+
+//Form to register
+app.get('/register', async (req, res) => {
+    res.render('passport-login-system/register');
+});
+
+//Register
+app.post('/register', async (req, res) => {
+
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.senha, 10);
+
+        let email = req.body.email, 
+            nome = req.body.nome,
+            telefone = req.body.telefone, 
+            endereco = req.body.endereco, 
+            senha = hashedPassword 
+        ;
+
+        let user = new User(email, nome, telefone, endereco, senha);
+
+        await user.save();
+
+        res.redirect('/login');
+
+    } catch (error) {
+        console.log(error);
+        res.redirect('/register');
+    }
+});
+
 //Home page
 app.get('/', async (req, res) => {
+    
+    const [books, _] = await Book.findAll();
 
+    res.render('home', {books});
+});
+
+//Home page
+app.get('/home', async (req, res) => {
+    
     const [books, _] = await Book.findAll();
 
     res.render('home', {books});
