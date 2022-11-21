@@ -1,7 +1,12 @@
+let idDefault = 1;
+
 const Book          = require("../projeto-banco-de-dados/models/Book");
+const Author        = require("../projeto-banco-de-dados/models/Author");
 const Publishers    = require("../projeto-banco-de-dados/models/Publishers");
 const Order         = require("../projeto-banco-de-dados/models/Order");
 const User          = require("../projeto-banco-de-dados/models/User");
+const Sale          = require("../projeto-banco-de-dados/models/Sale");
+const Delivery       = require("./models/Delivery");
 
 const { ifError }           = require('assert');
 const express               = require('express');
@@ -83,10 +88,15 @@ app.post('/register', async (req, res) => {
     }
 });
 
+/*
+=========================================================
+HOME ROUTES
+=========================================================
+*/
 //Home page
 app.get('/', async (req, res) => {
     
-    const [books, _] = await Book.findAll();
+    const [books, _] = await Book.findAllBooks();
 
     res.render('home', {books});
 });
@@ -94,38 +104,52 @@ app.get('/', async (req, res) => {
 //Home page
 app.get('/home', async (req, res) => {
     
-    const [books, _] = await Book.findAll();
+    const [books, _] = await Book.findAllBooks();
 
     res.render('home', {books});
 });
 
-let email = 'thiagolopes@hotmail.com';
 
 /*
-===================
+=========================================================
 BOOKS ROUTES
-===================
+=========================================================
 */
 //Page to show all books
-app.get('/books', async (req, res) => {
+app.get('/livros', async (req, res) => {
 
-    const [books, _] = await Book.findAll();
+    const [books, _] = await Book.findAllBooks();
 
     res.render('books-page/index', {books});
 });
 
 /* 
-======================================
+=========================================================
 Creating  a new book on database
-======================================
+=========================================================
 */
 //Form to create a new book
-app.get('/book/new', (req, res) => {
+app.get('/livro/new', (req, res) => {
     res.render('books-page/new');
 });
 
+//Show books by type
+//Digital books
+app.get('/livros/digitais', async (req, res) => {
+    const [books, _] = await Book.findAllDigitalBooks();
+
+    res.render('books-page/digital-books', {books});
+});
+
+//Fisical books
+app.get('/livros/fisicos', async (req, res) => {
+    const [books, _] = await Book.findAllFisicalBooks();
+
+    res.render('books-page/fisical-books', {books});
+});
+
 //Creating a new book
-app.post('/book', async (req, res) => {
+app.post('/livro', async (req, res) => {
     
     let bookCover;
     let uploadPath;
@@ -139,64 +163,77 @@ app.post('/book', async (req, res) => {
 
     let isbn = req.body.isbn, 
         titulo = req.body.titulo,
-        autor = req.body.autor, 
+        autor = req.body.autor,
         idioma = req.body.idioma, 
         descricao = req.body.descricao, 
         preco = req.body.preco, 
         quantidade = req.body.quantidade, 
-        id_editora = req.body.id_editora
-        capa = uploadPath;
+        id_editora = req.body.id_editora,
+        capa = uploadPath,
+
+        fileSize = req.body.tam_arquivo,
+        fontType = req.body.fonte
+
+        numPages = req.body.paginas
+
+        option = req.body.flexRadioDefault
     ;
 
-    let book = new Book(isbn, titulo, autor, idioma, descricao, preco, quantidade, id_editora, capa);
+    let book = new Book(isbn, titulo, idioma, descricao, preco, quantidade, id_editora, capa);
 
-    await book.save();
+    await book.saveBookOnDatabase(option, numPages, fileSize, fontType);
+
+    let autores = new Author(isbn, autor);
+    await autores.saveAuthorsOnDatabase();
     
-    res.redirect(`book/${isbn}`);
+    res.redirect(`livro/${isbn}`);
 });
 
-//Page to show one specific book
-app.get('/book/:id', async (req, res) => {
+//Show book by id (isbn)
+app.get('/livro/:id', async (req, res) => {
     
-    const [publishers] = await Publishers.findAll();
-    const [book, _] = await Book.findById(req.params.id);
+    const [book, _] = await Book.findBookByIsbn(req.params.id);
+
+    const [editora] = await Publishers.findPublisherById(book[0].id_editora);
+
+    const [autores] = await Author.findAuthorsByIsbn(req.params.id);
     
-    res.render('books-page/show', {book: book[0], publishers: publishers[0]});
+    res.render('books-page/show', { book: book[0], editora: editora[0], autores});
 });
 
 //Delete a book by id
-app.delete('/book/:id', async (req, res) => {
+app.delete('/livro/:id', async (req, res) => {
 
-    await Book.findByIdAndDelete(req.params.id);
+    await Book.findBookByIsbnAndDelete(req.params.id);
 
-    res.redirect('/books');
+    res.redirect('/livros');
 });
 
 //Form to edit a book
-app.get('/book/:id/edit', async (req, res) => {
+app.get('/livro/:id/edit', async (req, res) => {
     
-    const [book, _] = await Book.findById(req.params.id);
+    const [book, _] = await Book.findBookByIsbn(req.params.id);
 
     res.render('books-page/edit-book', { book: book[0] });
 });
 
 //Edit a book
-app.put('/book/:id', async (req, res) => {
+app.put('/livro/:id', async (req, res) => {
 
-    await Book.findByIdAndUpdate(req.params.id, {...req.body.book});
+    await Book.findBookByIsbnAndUpdate(req.params.id, {...req.body.book});
     
-    res.redirect(`/book/${req.body.book.isbn}`);
+    res.redirect(`/livro/${req.body.book.isbn}`);
 });
 
 /*
-===================
+=========================================================
 PUBLISHERS ROUTES
-===================
+=========================================================
 */
 //Page to show all publishers
 app.get('/editoras', async (req, res) => {
 
-    const [publishers, _] = await Publishers.findAll();
+    const [publishers, _] = await Publishers.findAllPublishers();
 
     res.render('publishers-page/publishers-index', {publishers});
 });
@@ -204,21 +241,21 @@ app.get('/editoras', async (req, res) => {
 //Show all books from specify publisher
 app.get('/editora/:id', async (req, res) => {
 
-    const [publishers] = await Publishers.findAll();
-    const [books, _] = await Publishers.findById(req.params.id);
+    const [publishers] = await Publishers.findAllPublishers();
+    const [books, _] = await Publishers.findAllBooksByPublisherId(req.params.id);
 
     res.render('publishers-page/publishers-show', {books, publishers: publishers[0]});
 });
 
 /*
-===================
+=========================================================
 ORDERS ROUTES
-===================
+=========================================================
 */
 //Show all orders from user
 app.get('/pedidos', async (req, res) => {
 
-    const [orders, _] = await Order.findAllOrdersById(email);
+    const [orders, _] = await Order.findAllOrdersById(idDefault);
 
     res.render('orders-page/orders-index', {orders});
 });
@@ -226,19 +263,28 @@ app.get('/pedidos', async (req, res) => {
 //Create a new order
 app.post('/pedidos', async (req, res) => {
 
-    const [orders] = await Order.findAllOrdersById(email);
-    const [book, _] = await Book.findById(req.body.isbn);
-
-    let qtd = req.body.quantidade;
-    qtd = book[0].quantidade - qtd;
-
-    await Book.deleteQuantity(req.body.isbn, qtd);
-
+    const [book, _] = await Book.findBookByIsbn(req.body.isbn);
+    
+    let option = req.body.flexRadioDefault
+    
+    if (option == 2) {
+        
+        let qtd = req.body.quantidade;
+        qtd = book[0].quantidade - qtd;
+        
+        await Book.deleteQuantity(req.body.isbn, qtd);
+    }
+    
     let price = book[0].preco * req.body.quantidade;
-    let order = new Order(null, email, req.body.isbn, price, req.body.quantidade, 'Pendente');
 
-    await order.save();
+    let order = new Order(idDefault, price, 'Pendente', option);
 
+    const ordem = await order.saveOrderOnDatabase();
+
+    let sale = new Sale(ordem.insertId, req.body.isbn, req.body.quantidade);
+    await sale.saveSaleOnDatabase();
+    
+    const [orders] = await Order.findAllOrdersById(idDefault);
     res.render('orders-page/orders-index', {orders});
 });
 
@@ -246,17 +292,26 @@ app.post('/pedidos', async (req, res) => {
 app.get('/pedido/:id', async (req, res) => {
 
     const [order, _] = await Order.findOrderById(req.params.id);
+    const [sale] = await Sale.findSaleById(req.params.id);
 
-    res.render('orders-page/orders-show', {order: order[0]});
+    res.render('orders-page/orders-show', {order: order[0], sale: sale[0]});
 });
 
-//Order payment
-app.get('/pedido/:id/pagamento', async (req, res) => {
+//Order confirmation
+app.get('/pedido/:id/entrega', async (req, res) => {
 
     const [order, _] = await Order.findOrderById(req.params.id);
+    res.render('orders-page/orders-confirmation', ({order: order[0]}));
+});
 
-    Order.payment(req.params.id);
+//Delivery
+app.post('/pedido/entrega', async (req, res) => {
 
-    res.render('orders-page/orders-payment', {order: order[0]});
+    const [order, _] = await Order.findOrderById(req.body.cod_pedido);
 
+    let delivery = new Delivery(10, 100, req.body.endereco, req.body.email);
+
+    await delivery.saveDeliveryOnDatabase(order[0]);
+
+    res.render('orders-page/orders-payment', ({order: order[0]}));
 });
