@@ -46,9 +46,23 @@ class Book {
         return db.execute(sql);
     }
 
+    //Find digital book by isbn
+    static findDigitalBookByIsbn(id) {
+        let sql = `SELECT * FROM livro INNER JOIN livro_digital ON livro.isbn = livro_digital.isbn AND livro.isbn = '${id}';`;
+
+        return db.execute(sql);
+    }
+
     //Return all digital books
     static findAllDigitalBooks() {
         let sql = `SELECT * FROM livro INNER JOIN livro_digital ON livro.isbn = livro_digital.isbn;`;
+
+        return db.execute(sql);
+    }
+
+    //Find fisical book by isbn
+    static findFisicalBookByIsbn(id) {
+        let sql = `SELECT * FROM livro INNER JOIN livro_fisico ON livro.isbn = livro_fisico.isbn AND livro.isbn = '${id}';`;
 
         return db.execute(sql);
     }
@@ -81,13 +95,12 @@ class Book {
         return db.execute(sql);
     }
 
-    static findBookByIsbnAndUpdate(id, res) {
-       
+    static findBookByIsbnAndUpdate(id,isbn, titulo, autor, idioma, descricao, preco, quantidade, id_editora) {
+    
         let sql = `
         UPDATE livro
-        SET isbn = '${res.isbn}', titulo = '${res.titulo}', idioma = '${res.idioma}', descricao = '${res.descricao}', preco = ${res.preco}, quantidade = ${res.quantidade}, id_editora = ${res.id_editora}
+        SET isbn = '${isbn}', titulo = '${titulo}', idioma = '${idioma}', descricao = '${descricao}', preco = ${preco}, quantidade = ${quantidade}, id_editora = ${id_editora}
         WHERE isbn = '${id}';`;
-
 
         return db.execute(sql);
     }
