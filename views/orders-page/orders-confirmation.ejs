@@ -1,0 +1,44 @@
+<% layout('layouts/boilerplate') %>
+
+    <h1>Seu pedido</h1>
+
+    <div class="card mb-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card-body">
+
+                    <% if (order.tipo == 1) { %>
+                        <h1>Livro Digital:</h1>
+
+                        <form action="/pedido/entrega" method="POST">
+                            <div class="mb-3">
+
+                                <input type="hidden" name="cod_pedido" value="<%= order.cod_pedido %> ">
+
+                                <label for="exampleInputEmail1" class="form-label">Email para download:</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Realizar Pagamento</button>
+                        </form>
+
+                    <% }  else { %>
+
+                        <h1>Livro Fisico:</h1>
+
+                        <form action="/pedido/entrega" method="POST">
+                            <div class="mb-3">
+
+                                <input type="hidden" name="cod_pedido" value="<%= order.cod_pedido %> ">
+
+                                <label for="exampleInputEmail1" class="form-label">Endereco para entrega:</label>
+                                <input type="text" class="form-control" id="endereco" name="endereco" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Realizar Pagamento</button>
+                        </form>
+                     <% } %> 
+                </div>
+            </div>
+        </div>
+    </div>
