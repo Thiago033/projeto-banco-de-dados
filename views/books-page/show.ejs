@@ -1,5 +1,11 @@
 <% layout('layouts/boilerplate') %>
 
+<!-- function testFunction(bookType) {
+    if bookType == 2 {
+        document.getElementById("age").disabled = true;
+    }
+} -->
+
 <div class="card mb-3 d-flex flex-column">
     <div class="row">
         <div class="col-md-4">
@@ -58,17 +64,34 @@
                 <button class="btn btn-success mb-2" type="submit">Order book</button>
             </div>
             
-            <div class="">
+
+            <!-- TROCAR ESSAS FUNCOES POR UM SCRIPT DESCENTE! -->
+
+            <% if (bookType == 1) { %>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1" checked>
                     <label class="form-check-label" for="flexRadioDefault1"> Livro Digital </label>
                 </div>
-
+            <% } else if (bookType == 2) { %>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="2">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="2" checked>
                     <label class="form-check-label" for="flexRadioDefault2"> Livro Fisico </label>
                 </div>
-            </div>
+            <% } else {%> 
+                <div class="">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1">
+                        <label class="form-check-label" for="flexRadioDefault1"> Livro Digital </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="2">
+                        <label class="form-check-label" for="flexRadioDefault2"> Livro Fisico </label>
+                    </div>
+                </div>
+            <% } %> 
+            <!-- TROCAR ESSAS FUNCOES POR UM SCRIPT DESCENTE! -->
+
         </div>
     </form>
 </div>
