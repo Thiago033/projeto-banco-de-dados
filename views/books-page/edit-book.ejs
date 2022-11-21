@@ -3,7 +3,7 @@
 <div class="row">
     <h1 class="text-center">Edit Book</h1>
     <div class="col-6 offset-3">
-        <form action="/book/<%= book.isbn %>?_method=PUT" method="POST">
+        <form action="/livro/<%= book.isbn %>?_method=PUT" method="POST">
             <div class="mb-3">
                 <label class="form-label" for="isbn">ISBN</label>
                 <input class="form-control" type="text" name="book[isbn]" id="isbn" value="<%= book.isbn %>">
@@ -49,7 +49,7 @@
             </div>
         </form>
 
-        <a href="/books">Cancel</a>
+        <a href="/livros">Cancel</a>
 
     </div>
 </div>
