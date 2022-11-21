@@ -8,15 +8,23 @@ class Publishers {
     }
 
     //return all publishers saved on data base
-    static findAll() {
+    static findAllPublishers() {
         let sql = `SELECT * FROM editora;`;
 
         return db.execute(sql);
     }
 
+    //
+    static findPublisherById(id_editora){
+        let sql = `SELECT * FROM editora WHERE id_editora = ${id_editora};`;
+
+        return db.execute(sql);
+    }
+
+
     //return all books from publisher with id = ${id_editora}
-    static findById(id_editora){
-        let sql = `SELECT * FROM book WHERE id_editora = ${id_editora};`;
+    static findAllBooksByPublisherId(id_editora){
+        let sql = `SELECT * FROM livro WHERE id_editora = ${id_editora};`;
 
         return db.execute(sql);
     }
