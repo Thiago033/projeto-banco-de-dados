@@ -6,14 +6,15 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card-body">
-                
-                <h5 class="card-title">Email de compra: <%= order.email%> </h5>
-                <p class="card-text">Codigo ISBN do livro comprado: <%= order.isbn %> </p>
+                <h5 class="card-title">ID de compra: <%= order.id_usuario%> </h5>
+                <h5 class="card-title mt-4">Quantidade de livros: <%= sale.quantidade %> </h5>
+                <h5 class="card-title mb-4">ISBN: <%= sale.isbn %> </h5>
                 <p class="card-text">Valor total: $<%= order.valor_total %> </p>
-                <p class="card-text">Quantidade: <%= order.quantidade %> </p>
                 <p class="card-text">Situacao do pagamento: <%= order.situacao %> </p>
-                
-                <a href="/pedido/<%= order.cod_pedido%>/pagamento" class="btn btn-success">Realizar Pagamento</a>
+
+                <% if (order.situacao != 'Aprovado') { %> 
+                    <a class="btn btn-success" href="/pedido/<%= order.cod_pedido %> /entrega">Confirmar Pedido</a>
+                <% } %> 
             </div>
         </div>
     </div>
