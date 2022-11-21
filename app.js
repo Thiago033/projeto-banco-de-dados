@@ -194,11 +194,31 @@ app.get('/livro/:id', async (req, res) => {
     
     const [book, _] = await Book.findBookByIsbn(req.params.id);
 
+
+    //===================================================
+    //TODO: create a decent function for this
+    let bookType;
+
+    const [digital] = await Book.findDigitalBookByIsbn(req.params.id);
+    if (digital[0]) {
+        
+        const [fisico] = await Book.findFisicalBookByIsbn(req.params.id);
+        if (fisico[0]) {
+            bookType = 3;
+        } else {
+            bookType = 1;
+        }
+    } else {
+        bookType = 2;
+    }
+    //===================================================
+    
+
     const [editora] = await Publishers.findPublisherById(book[0].id_editora);
 
     const [autores] = await Author.findAuthorsByIsbn(req.params.id);
-    
-    res.render('books-page/show', { book: book[0], editora: editora[0], autores});
+
+    res.render('books-page/show', { book: book[0], editora: editora[0], autores, bookType});
 });
 
 //Delete a book by id
@@ -213,16 +233,27 @@ app.delete('/livro/:id', async (req, res) => {
 app.get('/livro/:id/edit', async (req, res) => {
     
     const [book, _] = await Book.findBookByIsbn(req.params.id);
+    const [autores] = await Author.findAuthorsByIsbn(req.params.id);
 
-    res.render('books-page/edit-book', { book: book[0] });
+    res.render('books-page/edit-book', { book: book[0], autores});
 });
 
 //Edit a book
 app.put('/livro/:id', async (req, res) => {
 
-    await Book.findBookByIsbnAndUpdate(req.params.id, {...req.body.book});
+    let isbn = req.body.isbn, 
+        titulo = req.body.titulo,
+        autor = req.body.autor,
+        idioma = req.body.idioma, 
+        descricao = req.body.descricao, 
+        preco = req.body.preco, 
+        quantidade = req.body.quantidade, 
+        id_editora = req.body.id_editora
+    ;
+
+    await Book.findBookByIsbnAndUpdate(req.params.id, isbn, titulo, autor, idioma, descricao, preco, quantidade, id_editora);
     
-    res.redirect(`/livro/${req.body.book.isbn}`);
+    res.redirect(`/livro/${req.body.isbn}`);
 });
 
 /*
