@@ -6,4 +6,16 @@
     margin:auto;
     width: 100%;
     height: 35%;
-    }
+}
+
+.background-gradient {
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+.carrousel-link {
+    color: white;
+}
+
+.carrousel-link:hover {
+    text-decoration: none;
+}
