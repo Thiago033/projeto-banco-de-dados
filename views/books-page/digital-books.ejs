@@ -23,8 +23,13 @@
                     <p class="card-text"> <%= book.idioma %> </p>
                     
                     <h5 class="mb-3">$ <%= book.preco %> </h5>
-                        
-                    <a href="/livro/<%= book.isbn%>" class="btn btn-primary align-self-end" style="position:absolute;">Detalhes <%= book.titulo %></a>
+                    
+                    <!-- <form action="/livro/<%=book.isbn%>" method="GET">
+                        <input type="hidden" name="bookType" id="bookType" value=1>
+                        <button class="btn btn-primary align-self-end" type="submit">Detalhes <%= book.titulo %></button>
+                    </form> -->
+
+                    <a href="/livro/<%= book.isbn %>" class="btn btn-primary align-self-end" style="position:absolute;">Detalhes <%= book.titulo %></a>
                 </div>
             </div>
         </div>
