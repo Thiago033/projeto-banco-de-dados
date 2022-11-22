@@ -1,11 +1,5 @@
 <% layout('layouts/boilerplate') %>
 
-<!-- function testFunction(bookType) {
-    if bookType == 2 {
-        document.getElementById("age").disabled = true;
-    }
-} -->
-
 <div class="card mb-3 d-flex flex-column">
     <div class="row">
         <div class="col-md-4">
@@ -20,8 +14,8 @@
                 </p>
                 
                 <h4>Autores:</h4>
-                <% for(let nome of autores) { %>
-                    <p><%= nome.autor %> </p>
+                <% for(let autor of autores) { %>
+                    <p><%= autor.nome %> </p>
                 <% } %>
 
                 <br>
