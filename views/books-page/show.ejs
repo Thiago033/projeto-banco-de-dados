@@ -61,7 +61,7 @@
             </div>
         
             <div class="col-7">
-                <button class="btn btn-success mb-2" type="submit">Order book</button>
+                <button class="btn btn-success mb-2" type="submit">Comprar</button>
             </div>
             
 
@@ -97,10 +97,10 @@
 </div>
 
 <div class="mb-3">
-    <a href="/livro/<%= book.isbn %>/edit " class="card-link btn btn-primary">Edit book</a>
+    <a href="/livro/<%= book.isbn %>/edit " class="card-link btn btn-primary">Editar</a>
 
     <form class="d-inline" action="/livro/<%=book.isbn%>?_method=DELETE" method="POST">
-        <button class="btn btn-danger">Delete</button>
+        <button class="btn btn-danger">Deletar</button>
     </form>
 </div>
 
