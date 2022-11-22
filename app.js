@@ -32,6 +32,8 @@ app.use(fileUpload());
 app.use(methodOverride('_method'));
 app.use('/public/', express.static('./public'));
 app.use(flash());
+
+
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -40,6 +42,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+
 app.engine('ejs', ejsMate);
 
 //server connection
@@ -47,6 +51,9 @@ app.engine('ejs', ejsMate);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`server running on port ${PORT}`));
 
+
+//==========================================================
+//LOGIN DOESN'T WORK
 //Form to login
 app.get('/login', async (req, res) => {
     res.render('passport-login-system/login');
@@ -57,6 +64,8 @@ app.post('/login', passport.authenticate('local', {
 	successRedirect: '/',
 	failureRedirect: '/login'
 }));
+//==========================================================
+
 
 //Form to register
 app.get('/register', async (req, res) => {
@@ -212,7 +221,7 @@ app.get('/livro/:id', async (req, res) => {
         bookType = 2;
     }
     //===================================================
-    
+
 
     const [editora] = await Publishers.findPublisherById(book[0].id_editora);
 
@@ -340,9 +349,20 @@ app.post('/pedido/entrega', async (req, res) => {
 
     const [order, _] = await Order.findOrderById(req.body.cod_pedido);
 
-    let delivery = new Delivery(10, 100, req.body.endereco, req.body.email);
+    let delivery = new Delivery(makeid(12), 10, req.body.endereco, req.body.email);
 
     await delivery.saveDeliveryOnDatabase(order[0]);
 
     res.render('orders-page/orders-payment', ({order: order[0]}));
 });
+
+//Function to generate a random tracking code for order
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
