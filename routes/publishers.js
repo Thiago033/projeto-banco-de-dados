@@ -1,11 +1,9 @@
-const express   = require('express');
-
-const publishers = require('../controllers/publishers');
+const express       = require('express');
+const publishers    = require('../controllers/publishers');
 
 const router = express.Router();
 
-router.get('/editoras', publishers.showAllPublishers);
-
-router.get('/editora/:id', publishers.showPublisherById);
+router.get('/publishers', publishers.showAllPublishers);
+router.get('/publisher/:id', publishers.showPublisherById);
 
 module.exports = router;
