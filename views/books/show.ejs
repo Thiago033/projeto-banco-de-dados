@@ -13,7 +13,7 @@
                     <small class="text-muted"><%= book.descricao %> </small>
                 </p>
                 
-                <h4>Autores:</h4>
+                <h4>Authors:</h4>
                 <% for(let autor of autores) { %>
                     <p><%= autor.nome %> </p>
                 <% } %>
@@ -25,7 +25,7 @@
                 
                 <br>
 
-                <h5 class="card-text">Editora:</h5>
+                <h5 class="card-text">Publisher:</h5>
                 <p class="card-text"><%= editora.nome_editora %> </p>
 
                 <br>
@@ -36,7 +36,7 @@
                 
                 <br>
 
-                <h5 class="card-text">Preco: </h5>
+                <h5 class="card-text">Price: </h5>
                 <h5 class="card-text">$<%= book.preco %> </h5>
             </div>
         </div>
@@ -46,7 +46,7 @@
 <h4>Livros restantes no estoque: <%= book.quantidade %> </h4>
         
 <div class="d-flex justify-content-center">
-    <form action="/pedidos" class="needs-validation" method="POST" id="myForm" onsubmit="event.preventDefault(); validateMyForm(<%= book.quantidade %>);">
+    <form action="/orders" class="needs-validation" method="POST" id="myForm" onsubmit="event.preventDefault(); validateMyForm(<%= book.quantidade %>);">
         <div class="row">
 
             <div class="col-5">
@@ -91,9 +91,9 @@
 </div>
 
 <div class="mb-3">
-    <a href="/livro/<%= book.isbn %>/edit " class="card-link btn btn-primary">Editar</a>
+    <a href="/book/<%= book.isbn %>/edit " class="card-link btn btn-primary">Editar</a>
 
-    <form class="d-inline" action="/livro/<%=book.isbn%>?_method=DELETE" method="POST">
+    <form class="d-inline" action="/book/<%=book.isbn%>?_method=DELETE" method="POST">
         <button class="btn btn-danger">Deletar</button>
     </form>
 </div>

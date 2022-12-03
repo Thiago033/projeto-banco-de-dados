@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate') %>
 
-<h1>Seus pedidos</h1>
+<h1>Your Orders</h1>
 
 <% for(let order of orders) { %> 
 
@@ -12,7 +12,7 @@
                     <p class="card-text">Valor total: $<%= order.valor_total %> </p>
                     <p class="card-text">Situacao do pagamento: <%= order.situacao %> </p>
 
-                    <a href="/pedido/<%=order.cod_pedido%>" class="btn btn-primary">Vizualizar Pedido%></a>
+                    <a href="/order/<%=order.cod_pedido%>" class="btn btn-primary">View Order%></a>
                 </div>
             </div>
         </div>

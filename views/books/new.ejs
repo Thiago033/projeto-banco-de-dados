@@ -4,7 +4,7 @@
     <h1 class="text-center">New Book</h1>
     <div class="col-6 offset-3">
 
-        <form action="/livro" method="POST" enctype="multipart/form-data">
+        <form action="/book" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label" for="isbn">ISBN</label>
                 <input class="form-control" type="text" name="isbn" id="isbn" required>
@@ -103,7 +103,7 @@
             <div class="mb-3">
                 <button class="btn btn-success" type="submit">Add Book</button>
             
-            <a href="/livros" class="btn btn-danger">Cancel</a>
+            <a href="/books" class="btn btn-danger">Cancel</a>
             </div>
 
         </form>

@@ -1,14 +1,14 @@
 <% layout('layouts/boilerplate') %>
 
-    <h1>Seu pedido</h1>
+    <h1>Your Order</h1>
 
     <div class="card mb-3">
         <div class="row">
             <div class="col-md-12">
                 <div class="card-body">
-                    <h1>Codigo do pedido: <%= order.cod_pedido %> </h1>
+                    <h1>Order Code: <%= order.cod_pedido %> </h1>
                     <h2 class="mb-3 text-success">Pagamento aprovado!</h2>
-                    <a href="/pedido/<%=order.cod_pedido%>" class="btn btn-primary">View order%></a>
+                    <a href="/order/<%=order.cod_pedido%>" class="btn btn-primary">View order%></a>
                 </div>
             </div>
         </div>

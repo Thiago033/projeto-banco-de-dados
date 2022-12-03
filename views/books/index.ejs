@@ -1,10 +1,10 @@
 <% layout('layouts/boilerplate') %>
 
-<h1 class="text-center">Livros Fisicos</h1>
+<h1 class="text-center">All Books</h1>
 
 <div class="text-center">
-    <a class="btn btn-primary" href="/livros">Todos os livros</a>
-    <a class="btn btn-primary m-3" href="/livros/digitais">Livros Digitais</a>
+    <a class="btn btn-primary m-3" href="/books/digital">Digital Books</a>
+    <a class="btn btn-primary" href="/books/fisical">Fisical Books</a>
 </div>
 
 <% for(let book of books) { %>
@@ -23,15 +23,14 @@
                     <p class="card-text"> <%= book.idioma %> </p>
                     
                     <h5 class="mb-3">$ <%= book.preco %> </h5>
-                    
-                    <!-- <form action="/livro/<%=book.isbn%>" method="GET">
-                        <input type="hidden" name="bookType" id="bookType" value=2>
-                        <button class="btn btn-primary align-self-end" type="submit">Detalhes <%= book.titulo %></button>
-                    </form> -->
-
-                    <a href="/livro/<%= book.isbn%>" class="btn btn-primary align-self-end" style="position:absolute;">Detalhes <%= book.titulo %></a>
+                        
+                    <a href="/book/<%= book.isbn%>" class="btn btn-primary align-self-end" style="position:absolute;">Details <%= book.titulo %></a>
                 </div>
             </div>
         </div>
     </div>
 <% } %>
+
+<div class="mb-3">
+    <a href="/book/new" class="btn btn-success">Add new book</a>
+</div>

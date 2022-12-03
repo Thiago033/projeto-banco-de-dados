@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate') %>
 
-<h1>Todas editoras</h1>
+<h1>All Publishers</h1>
 
 <% for(let publisher of publishers) { %>
     <div class="card mb-3">
@@ -10,7 +10,7 @@
                     <h4 class="card-title"> <%= publisher.nome_editora %> </h4>
                     <p class="card-text"> <%= publisher.cnpj %> </p>
 
-                    <a href="/editora/<%= publisher.id_editora %>" class="btn btn-primary">Vizualizar livros</a>
+                    <a href="/publisher/<%= publisher.id_editora %>" class="btn btn-primary">View Books</a>
                 </div>
             </div>
         </div>

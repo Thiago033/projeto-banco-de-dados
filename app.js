@@ -2,17 +2,17 @@ const express               = require('express');
 const fileUpload            = require('express-fileupload');
 const ejsMate               = require('ejs-mate');
 const methodOverride        = require('method-override');
-const bcrypt                = require('bcrypt');
-const passport              = require('passport');
 const path                  = require('path');
 const flash                 = require('express-flash');
+
+const passport              = require('passport');
 const session               = require('express-session');
 
-
-const bookRoutes        = require('./routes/book');
-const homeRoutes        = require('./routes/home');
-const publishersRoutes  = require('./routes/publishers');
-const ordersRoutes      = require('./routes/orders');
+//Routes
+const bookRoutes            = require('./routes/books');
+const homeRoutes            = require('./routes/home');
+const publishersRoutes      = require('./routes/publishers');
+const ordersRoutes          = require('./routes/orders');
 
 const app = express();
 
@@ -20,6 +20,12 @@ app.engine('ejs', ejsMate);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+//Routes
+app.use(bookRoutes);
+app.use(homeRoutes);
+app.use(publishersRoutes);
+app.use(ordersRoutes);
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: false }));
@@ -29,14 +35,6 @@ app.use(methodOverride('_method'));
 app.use('/public/', express.static('./public'));
 app.use(flash());
 
-
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false
-}));
-app.use(passport.initialize());
-app.use(passport.session());
 
 
 //server connection
@@ -55,10 +53,6 @@ app.use((err, req, res, next) => {
     console.log(err.code);
 });
 
-app.use(bookRoutes);
-app.use(homeRoutes);
-app.use(publishersRoutes);
-app.use(ordersRoutes);
 
 
 //Function to generate a random tracking code for order

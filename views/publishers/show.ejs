@@ -1,11 +1,6 @@
 <% layout('layouts/boilerplate') %>
 
-<h1 class="text-center">Todos Livros</h1>
-
-<div class="text-center">
-    <a class="btn btn-primary m-3" href="/livros/digitais">Livros Digitais</a>
-    <a class="btn btn-primary" href="/livros/fisicos">Livros Fisicos</a>
-</div>
+<h1>Books from publisher: <%= publishers.nome_editora %></h1>
 
 <% for(let book of books) { %>
     <div class="card mb-3 d-flex flex-column">
@@ -24,13 +19,9 @@
                     
                     <h5 class="mb-3">$ <%= book.preco %> </h5>
                         
-                    <a href="/livro/<%= book.isbn%>" class="btn btn-primary align-self-end" style="position:absolute;">Detalhes <%= book.titulo %></a>
+                    <a href="/book/<%= book.isbn%>" class="btn btn-primary align-self-end" style="position:absolute;">Details <%= book.titulo %></a>
                 </div>
             </div>
         </div>
     </div>
 <% } %>
-
-<div class="mb-3">
-    <a href="/livro/new" class="btn btn-success">Add new book</a>
-</div>
