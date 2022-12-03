@@ -1,6 +1,7 @@
 <% layout('layouts/boilerplate') %>
 
   <% 
+    //Return array with 3 random index from list of books
     function myRandomInts(lenghBooks) {
       const arr = [];
 
@@ -17,7 +18,7 @@
     let array = myRandomInts(books.length);
   %>
 
-  <h1 class="text-center">Livros em destaque!</h1>
+  <h1 class="text-center">Featured Books!</h1>
 
   <div id="carouselExampleCaptions" class="carousel slide mt-5" data-bs-ride="false">
     <div class="carousel-indicators">
