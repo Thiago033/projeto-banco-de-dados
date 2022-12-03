@@ -9,7 +9,7 @@ exports.showAllOrders = async (req, res, next) => {
     try {
         //Hard coding the ID = 1
         const [orders, _] = await Order.findAllOrdersById(1);
-        res.render('orders-page/orders-index', {orders});
+        res.render('orders/index', {orders});
     } catch (error) {
         console.log("error");
         next(error);
@@ -22,7 +22,7 @@ exports.showOrderById = async (req, res, next) => {
         const [order, _] = await Order.findOrderById(req.params.id);
         const [sale] = await Sale.findSaleById(req.params.id);
     
-        res.render('orders-page/orders-show', {order: order[0], sale: sale[0]});
+        res.render('orders/show', {order: order[0], sale: sale[0]});
     } catch (error) {
         console.log("error");
         next(error);
@@ -55,7 +55,7 @@ exports.newOrder = async (req, res, next) => {
         await sale.saveSaleOnDatabase();
         
         const [orders] = await Order.findAllOrdersById(1);
-        res.render('orders-page/orders-index', {orders});
+        res.render('orders/index', {orders});
 
     } catch (error) {
         console.log("error");
@@ -66,7 +66,7 @@ exports.newOrder = async (req, res, next) => {
 exports.showOrderConfirmation = async (req, res, next) => {
     try {
         const [order, _] = await Order.findOrderById(req.params.id);
-        res.render('orders-page/orders-confirmation', ({order: order[0]}));
+        res.render('orders/confirmation', ({order: order[0]}));
         
     } catch (error) {
         console.log("error");
@@ -82,7 +82,7 @@ exports.OrderConfirmation = async (req, res, next) => {
     
         await delivery.saveDeliveryOnDatabase(order[0]);
     
-        res.render('orders-page/orders-payment', ({order: order[0]}));
+        res.render('orders/payment', ({order: order[0]}));
         
     } catch (error) {
         console.log("error");
