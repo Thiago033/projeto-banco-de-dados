@@ -1,12 +1,12 @@
 const Book = require('../models/Book');
 const Author = require('../models/Author');
-const Publishers = require('../models/Publishers');
+const Publishers = require('../models/Publisher');
 
 //Show all books in database
 exports.showAllBooks = async (req, res, next) => {
     try {
         const [books, _] = await Book.findAllBooks();
-        res.render('books-page/index', {books});
+        res.render('books/index', {books});
     } catch (error) {
         console.log("error");
         next(error);
@@ -16,7 +16,7 @@ exports.showAllBooks = async (req, res, next) => {
 //Form to create a new book
 exports.formToNewBook = async (req, res, next) => {
     try {
-        res.render('books-page/new');
+        res.render('books/new');
     } catch (error) {
         console.log("error");
         next(error);
@@ -101,18 +101,8 @@ exports.showBookByIsbn = async (req, res, next) => {
 
         const [autores] = await Author.findAuthorsByIsbn(req.params.id);
 
-        res.render('books-page/show', { book: book[0], editora: editora[0], autores, bookType});
+        res.render('books/show', { book: book[0], editora: editora[0], autores, bookType});
 
-    } catch (error) {
-        console.log("error");
-        next(error);
-    }
-};
-
-exports.showFisicalBooks = async (req, res, next) => {
-    try {
-        const [books, _] = await Book.findAllDigitalBooks();
-        res.render('books-page/digital-books', {books});
     } catch (error) {
         console.log("error");
         next(error);
@@ -122,18 +112,27 @@ exports.showFisicalBooks = async (req, res, next) => {
 exports.showDigitalBooks = async (req, res, next) => {
     try {
         const [books, _] = await Book.findAllFisicalBooks();
-        res.render('books-page/fisical-books', {books});
+        res.render('books/digital-books', {books});
     } catch (error) {
         console.log("error");
         next(error);
     }
 };
 
+exports.showFisicalBooks = async (req, res, next) => {
+    try {
+        const [books, _] = await Book.findAllDigitalBooks();
+        res.render('books/fisical-books', {books});
+    } catch (error) {
+        console.log("error");
+        next(error);
+    }
+};
 
 exports.deleteBook = async (req, res, next) => {
     try {
         await Book.findBookByIsbnAndDelete(req.params.id);
-        res.redirect('/livros');
+        res.redirect('/books');
     } catch (error) {
         console.log("error");
         next(error);
@@ -145,7 +144,7 @@ exports.formToEditBook = async (req, res, next) => {
         const [book, _] = await Book.findBookByIsbn(req.params.id);
         const [autores] = await Author.findAuthorsByIsbn(req.params.id);
     
-        res.render('books-page/edit-book', { book: book[0], autores});
+        res.render('books/edit', { book: book[0], autores});
     } catch (error) {
         console.log("error");
         next(error);
@@ -166,7 +165,7 @@ exports.editBook = async (req, res, next) => {
 
         await Book.findBookByIsbnAndUpdate(req.params.id, isbn, titulo, autor, idioma, descricao, preco, quantidade, id_editora);
     
-        res.redirect(`/livro/${req.body.isbn}`);
+        res.redirect(`/book/${req.body.isbn}`);
     } catch (error) {
         console.log("error");
         next(error);
