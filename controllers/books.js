@@ -80,20 +80,20 @@ exports.showBookByIsbn = async (req, res, next) => {
 
         //===================================================
         //TODO: create a decent function for this
-        let bookType = 3;
+        let bookType;
 
-        // const [digital] = await Book.findDigitalBookByIsbn(req.params.id);
-        // if (digital[0]) {
+        const [digital] = await Book.findDigitalBookByIsbn(req.params.id);
+        if (digital[0]) {
             
-        //     const [fisico] = await Book.findFisicalBookByIsbn(req.params.id);
-        //     if (fisico[0]) {
-        //         bookType = 3;
-        //     } else {
-        //         bookType = 1;
-        //     }
-        // } else {
-        //     bookType = 2;
-        // }
+            const [fisico] = await Book.findFisicalBookByIsbn(req.params.id);
+            if (fisico[0]) {
+                bookType = 3;
+            } else {
+                bookType = 1;
+            }
+        } else {
+            bookType = 2;
+        }
         //===================================================
 
 
