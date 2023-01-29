@@ -18,6 +18,7 @@
     let array = myRandomInts(books.length);
   %>
 
+  <h1 class="text-center">Bem vindo <%= user.nome %>!</h1>
   <h1 class="text-center">Featured Books!</h1>
 
   <div id="carouselExampleCaptions" class="carousel slide mt-5" data-bs-ride="false">
@@ -33,7 +34,7 @@
       <div class="carousel-item active">
         <img src="<%= books[array[0]].capa %>" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block background-gradient">
-          <h5><a href="/livro/<%= books[array[0]].isbn %>" class="carrousel-link">
+          <h5><a href="/book/<%= books[array[0]].isbn %>" class="carrousel-link">
             <%= books[array[0]].titulo %></a>
           </h5>
           <p><%= books[array[0]].descricao %></p>
@@ -42,7 +43,7 @@
       <div class="carousel-item">
         <img src="<%= books[array[1]].capa %>" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block background-gradient">
-          <h5><a href="/livro/<%= books[array[1]].isbn %>" class="carrousel-link">
+          <h5><a href="/book/<%= books[array[1]].isbn %>" class="carrousel-link">
             <%= books[array[1]].titulo %></a>
           </h5>
           <p><%= books[array[1]].descricao %></p>
@@ -51,7 +52,7 @@
       <div class="carousel-item">
         <img src="<%= books[array[2]].capa %>" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block background-gradient">
-          <h5><a href="/livro/<%= books[array[2]].isbn %>" class="carrousel-link">
+          <h5><a href="/book/<%= books[array[2]].isbn %>" class="carrousel-link">
             <%= books[array[2]].titulo %></a>
           </h5>
           <p><%= books[array[2]].descricao %></p>

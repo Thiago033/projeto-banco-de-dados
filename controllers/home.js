@@ -3,7 +3,10 @@ const Book = require('../models/Book');
 exports.showHomePage = async (req, res, next) => {
     try {
         const [books, _] = await Book.findAllBooks();
-        res.render('home', {books});
+
+        const user = req.user;
+
+        res.render('home', {books, user});
     } catch (error) {
         console.log("error");
         next(error);

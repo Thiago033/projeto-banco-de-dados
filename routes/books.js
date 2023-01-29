@@ -9,7 +9,7 @@ router.get('/book/:id', book.showBookByIsbn);
 router.get('/books/digital', book.showDigitalBooks);
 router.get('/books/fisical', book.showFisicalBooks);
 
-router.get('/book/new', book.formToNewBook);
+router.get('/books/new', book.formToNewBook)
 router.post('/book', book.createBook);
 
 router.delete('/book/:id', book.deleteBook);

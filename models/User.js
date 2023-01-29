@@ -34,7 +34,7 @@ class User {
 
     //return all users with specify id
     static findUserById(id){
-        let sql = `SELECT * FROM usuario WHERE id = ${id};`;
+        let sql = `SELECT * FROM usuario WHERE id_usuario = ${id};`;
 
         return db.execute(sql);
     }

@@ -32,7 +32,7 @@ exports.showOrderById = async (req, res, next) => {
 
 exports.newOrder = async (req, res, next) => {
     try {
-        
+        console.log(req.body);
         const [book, _] = await Book.findBookByIsbn(req.body.isbn);
     
         let option = req.body.flexRadioDefault

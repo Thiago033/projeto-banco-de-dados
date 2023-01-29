@@ -2,6 +2,7 @@
 
 <h1 class="text-center">All Books</h1>
 
+
 <div class="text-center">
     <a class="btn btn-primary m-3" href="/books/digital">Digital Books</a>
     <a class="btn btn-primary" href="/books/fisical">Fisical Books</a>
@@ -23,14 +24,14 @@
                     <p class="card-text"> <%= book.idioma %> </p>
                     
                     <h5 class="mb-3">$ <%= book.preco %> </h5>
-                        
+                    
                     <a href="/book/<%= book.isbn%>" class="btn btn-primary align-self-end" style="position:absolute;">Details <%= book.titulo %></a>
                 </div>
             </div>
         </div>
     </div>
-<% } %>
-
-<div class="mb-3">
-    <a href="/book/new" class="btn btn-success">Add new book</a>
-</div>
+    <% } %>
+    
+    <div class="mb-3">
+        <a class="btn btn-success m-3" href="/books/new">Add New Book</a>
+    </div>

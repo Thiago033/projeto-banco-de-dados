@@ -14,7 +14,7 @@ exports.showAllBooks = async (req, res, next) => {
 };
 
 //Form to create a new book
-exports.formToNewBook = async (req, res, next) => {
+exports.formToNewBook = (req, res, next) => {
     try {
         res.render('books/new');
     } catch (error) {
@@ -26,7 +26,6 @@ exports.formToNewBook = async (req, res, next) => {
 //Creating a new book
 exports.createBook = async (req, res, next) => {
     try {
-
         let bookCover;
         let uploadPath;
     
@@ -63,7 +62,7 @@ exports.createBook = async (req, res, next) => {
         let autores = new Author(isbn, autor);
         await autores.saveAuthorsOnDatabase();
         
-        res.redirect(`livro/${isbn}`);
+        res.redirect(`book/${isbn}`);
 
     } catch (error) {
         console.log("error");
